@@ -255,7 +255,7 @@ contract('DNSSEC', function(accounts) {
               inception,
               keyTag: 1278,
               signersName: '.',
-              signature: new Buffer([]),
+              signature: Buffer.from([]),
             },
           },
           rrs: [
@@ -294,7 +294,7 @@ contract('DNSSEC', function(accounts) {
               inception,
               keyTag: 1278,
               signersName: '.',
-              signature: new Buffer([]),
+              signature: Buffer.from([]),
             },
           },
           rrs: [
@@ -334,7 +334,7 @@ contract('DNSSEC', function(accounts) {
               inception,
               keyTag: 1278,
               signersName: '.',
-              signature: new Buffer([]),
+              signature: Buffer.from([]),
             },
           },
           rrs: [
@@ -373,7 +373,7 @@ contract('DNSSEC', function(accounts) {
               inception,
               keyTag: 1278,
               signersName: '.',
-              signature: new Buffer([]),
+              signature: Buffer.from([]),
             },
           },
           rrs: [
@@ -413,7 +413,7 @@ contract('DNSSEC', function(accounts) {
               inception,
               keyTag: 1278,
               signersName: '.',
-              signature: new Buffer([]),
+              signature: Buffer.from([]),
             },
           },
           rrs: [
@@ -448,7 +448,7 @@ contract('DNSSEC', function(accounts) {
               inception,
               keyTag: 1278,
               signersName: 'com',
-              signature: new Buffer([]),
+              signature: Buffer.from([]),
             },
           },
           rrs: [
@@ -519,7 +519,7 @@ contract('DNSSEC', function(accounts) {
               inception,
               keyTag: 1278,
               signersName: '.',
-              signature: new Buffer([]),
+              signature: Buffer.from([]),
             },
           },
           rrs: [
@@ -532,7 +532,7 @@ contract('DNSSEC', function(accounts) {
                 keyTag: 1278, // Empty body, flags == 0x0101, algorithm = 253, body = 0x0000
                 algorithm: 253,
                 digestType: 253,
-                digest: new Buffer('', 'hex')
+                digest: Buffer.from('', 'hex')
               }
             },
           ],
@@ -554,7 +554,7 @@ contract('DNSSEC', function(accounts) {
               inception,
               keyTag: 1278,
               signersName: 'foo',
-              signature: new Buffer([]),
+              signature: Buffer.from([]),
             },
           },
           rrs: [

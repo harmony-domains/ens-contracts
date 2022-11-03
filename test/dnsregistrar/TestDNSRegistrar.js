@@ -39,7 +39,7 @@ contract('DNSRegistrar', function(accounts) {
         inception,
         keyTag: 1278,
         signersName: '.',
-        signature: new Buffer([]),
+        signature: Buffer.from([]),
       },
     },
     rrs: [

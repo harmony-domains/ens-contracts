@@ -26,7 +26,7 @@ function rootKeys(expiration, inception) {
         inception,
         keyTag: 1278,
         signersName: '.',
-        signature: new Buffer([]),
+        signature: Buffer.from([]),
       },
     }
 

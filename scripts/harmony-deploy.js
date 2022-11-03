@@ -16,15 +16,20 @@ async function main() {
 
   const ens = await ENSRegistry.deploy()
   await ens.deployed()
-  const resolver = await PublicResolver.deploy(ens.address, ZERO_ADDRESS);
+  console.log(`ens.address: ${ens.address}`)
+//   const resolver = await PublicResolver.deploy(ens.address, ZERO_ADDRESS);
+// TOD: Update last two resolver parameters for _trustedETHController and _trustedReverseRegistrar
+  const resolver = await PublicResolver.deploy(ens.address, ZERO_ADDRESS, ZERO_ADDRESS, ZERO_ADDRESS);
   await resolver.deployed()
-//   await setupResolver(ens, resolver, accounts)
-//   const registrar = await  FIFSRegistrar.deploy(ens.address, namehash.hash(tld));
-//   await registrar.deployed()
-//   await setupRegistrar(ens, registrar);
+  console.log(`resolver.address: ${resolver.address}`)
+  await setupResolver(ens, resolver, accounts)
+  const registrar = await  FIFSRegistrar.deploy(ens.address, namehash.hash(tld));
+  await registrar.deployed()
+  await setupRegistrar(ens, registrar);
 //   const reverseRegistrar = await ReverseRegistrar.deploy(ens.address, resolver.address);
-//   await reverseRegistrar.deployed()
-//   await setupReverseRegistrar(ens, registrar, reverseRegistrar, accounts);
+  const reverseRegistrar = await ReverseRegistrar.deploy(ens.address);
+  await reverseRegistrar.deployed()
+  await setupReverseRegistrar(ens, registrar, reverseRegistrar, accounts);
 };
 
 async function setupResolver(ens, resolver, accounts) {
