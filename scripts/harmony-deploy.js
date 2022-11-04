@@ -11,6 +11,8 @@ async function main() {
   const FIFSRegistrar = await ethers.getContractFactory("FIFSRegistrar")
   const ReverseRegistrar = await ethers.getContractFactory("ReverseRegistrar")
   const PublicResolver = await ethers.getContractFactory("PublicResolver")
+  const StaticMetadataService = await ethers.getContractFactory("StaticMetadataService")
+  const NameWrapper = await ethers.getContractFactory("NameWrapper")
   const signers = await ethers.getSigners();
   const accounts = signers.map(s => s.address)
 
@@ -25,11 +27,24 @@ async function main() {
   await setupResolver(ens, resolver, accounts)
   const registrar = await  FIFSRegistrar.deploy(ens.address, namehash.hash(tld));
   await registrar.deployed()
+  console.log(`registrar.address: ${registrar.address}`)
   await setupRegistrar(ens, registrar);
 //   const reverseRegistrar = await ReverseRegistrar.deploy(ens.address, resolver.address);
   const reverseRegistrar = await ReverseRegistrar.deploy(ens.address);
   await reverseRegistrar.deployed()
   await setupReverseRegistrar(ens, registrar, reverseRegistrar, accounts);
+// Deploy StaticMetadataService.sol and NameWrapper.sol to support ens-metadata service
+  let metadataHost = process.env.METADATA_HOST || 'ens-metadata-service.appspot.com'
+  if (network.name === 'localhost') {
+    metadataHost = 'http://localhost:8080'
+  }
+  const metadataUrl = `${metadataHost}/name/0x{id}`
+  const staticMetadataService = await StaticMetadataService.deploy(metadataUrl)
+  await staticMetadataService.deployed()
+  console.log(`staticMetadataService.address: ${staticMetadataService.address}`)
+  const nameWrapper = await NameWrapper.deploy(ens.address, registrar.address, staticMetadataService.address)
+  await nameWrapper.deployed()
+  console.log(`nameWrapper.address: ${nameWrapper.address}`)
 };
 
 async function setupResolver(ens, resolver, accounts) {
