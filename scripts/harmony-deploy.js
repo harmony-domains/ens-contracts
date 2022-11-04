@@ -1,3 +1,11 @@
+// This is cloned and modified from https://docs.ens.domains/deploying-ens-on-a-private-chain#script-deploy.js
+// Lines modified have been commented out as // old
+// Summary of changes
+// Added in console.log to display all contract addresses deployed
+// For PublicResolver have populated two fields not in the documentation  _trustedETHController and _trustedReverseRegistrar
+// For reverseRegistrar have removed resolver.address
+// Added in deploy StaticMetadataService.sol and NameWrapper.sol to support ens-metadata service
+
 const hre = require("hardhat");
 const namehash = require('eth-ens-namehash');
 const tld = "test";
@@ -19,7 +27,7 @@ async function main() {
   const ens = await ENSRegistry.deploy()
   await ens.deployed()
   console.log(`ens.address: ${ens.address}`)
-//   const resolver = await PublicResolver.deploy(ens.address, ZERO_ADDRESS);
+// old:   const resolver = await PublicResolver.deploy(ens.address, ZERO_ADDRESS);
 // TOD: Update last two resolver parameters for _trustedETHController and _trustedReverseRegistrar
   const resolver = await PublicResolver.deploy(ens.address, ZERO_ADDRESS, ZERO_ADDRESS, ZERO_ADDRESS);
   await resolver.deployed()
@@ -29,11 +37,11 @@ async function main() {
   await registrar.deployed()
   console.log(`registrar.address: ${registrar.address}`)
   await setupRegistrar(ens, registrar);
-//   const reverseRegistrar = await ReverseRegistrar.deploy(ens.address, resolver.address);
+//old   const reverseRegistrar = await ReverseRegistrar.deploy(ens.address, resolver.address);
   const reverseRegistrar = await ReverseRegistrar.deploy(ens.address);
   await reverseRegistrar.deployed()
   await setupReverseRegistrar(ens, registrar, reverseRegistrar, accounts);
-// Deploy StaticMetadataService.sol and NameWrapper.sol to support ens-metadata service
+// Added in deploy StaticMetadataService.sol and NameWrapper.sol to support ens-metadata service
   let metadataHost = process.env.METADATA_HOST || 'ens-metadata-service.appspot.com'
   if (network.name === 'localhost') {
     metadataHost = 'http://localhost:8080'
