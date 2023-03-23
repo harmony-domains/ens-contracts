@@ -3,12 +3,17 @@
   "version": "0.0.13",
   "description": "ENS contracts",
   "scripts": {
+    "compile": "npx hardhat compile",
+    "deploy": "npx hardhat deploy",
     "test": "hardhat test",
     "test:local": "hardhat --network localhost test",
     "lint": "hardhat check",
     "build": "rm -rf ./build/deploy ./build/hardhat.config.js && hardhat compile && tsc",
     "prepublishOnly": "yarn build",
-    "pub": "yarn publish --access public"
+    "pub": "yarn publish --access public",
+    "slither": "slither .",
+    "slither-inheritance": "slither . --print inheritance-graph; mv *.dot ./docs/slither/.; cd docs/slither; dot inheritance-graph.dot -Tpng -o inheritance-graph.png; rm *.dot; cd ../..",
+    "slither-resolver": "slither . --print call-graph; mv *.dot ./docs/slither/.; cd docs/slither; dot PublicResolver.call-graph.dot -Tpng -o PublicResolver.call-graph.png; rm *.dot"
   },
   "files": [
     "build",
